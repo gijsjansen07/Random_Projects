@@ -5,7 +5,7 @@ import random
 arrayNON : list = random.sample(range(1, 101), 100)
 left_index = 0
 right_index = len(arrayNON) - 1
-middle_index = round(right_index// 2)
+
 
 print (arrayNON)
 
@@ -22,20 +22,55 @@ def bubblesort(array:list):
         if swap == False:
             return array; 
 
-def merge(array:list, L:int, R:int, M:int):
-    
-    pass
+def merge(array, Left_index, middle_index, Right_index):
+	n1 = middle_index - Left_index + 1
+	n2 = Right_index - middle_index
+
+	L = [0] * (n1)
+	R = [0] * (n2)
+
+	for i in range(0, n1):
+		L[i] = array[Left_index + i]
+
+	for j in range(0, n2):
+		R[j] = array[middle_index + 1 + j]
+
+	i = 0	
+	j = 0	
+	k = Left_index	 
+
+	while i < n1 and j < n2:
+		if L[i] <= R[j]:
+			array[k] = L[i]
+			i += 1
+		else:
+			array[k] = R[j]
+			j += 1
+		k += 1
 
 
-def mergesort(array, L, R):
-    middle_index = R// 2
+	while i < n1:
+		array[k] = L[i]
+		i += 1
+		k += 1
 
-    if L > R:
-        mergesort(array,L,middle_index)
-        mergesort(array,middle_index+1,R)
-        merge(array,L,R,middle_index)
+	while j < n2:
+		array[k] = R[j]
+		j += 1
+		k += 1
+	
+
+def mergesort(array, Left_index, Right_index):
+	if Left_index < Right_index:
+
+		middle_index = Left_index+(Right_index-Left_index)//2
+
+		mergesort(array, Left_index, middle_index)
+		mergesort(array, middle_index+1, Right_index)
+		merge(array, Left_index, middle_index, Right_index)
+	return array
 
 
 
-
-print (bubblesort(arrayNON))
+print (f'Bubblesort Results: {bubblesort(arrayNON)}')
+print (f"Merrgesort Results: {mergesort(arrayNON,left_index,right_index)}")
